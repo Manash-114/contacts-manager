@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="base::baseLayout(~{::section})">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <div class="my-card mt-3">
+              <div
+                th:if="${session.message}"
+                class="alert"
+                th:classappend="${session.message.type}"
+                role="alert"
+              >
+                <p th:text="${session.message.content}"></p>
+                <th:block
+                  th:text="${#session.removeAttribute('message')}"
+                ></th:block>
+              </div>
+              <div class="container text-center">
+                <img th:src = @{/images/register.png} alt="" width="100px">
+              </div>
+              <h2 class="text-center">Register Here</h2>
+              <form
+                th:action="@{/do_register}"
+                method="post"
+                th:object="${user}"
+              >
+                <div class="form-group">
+                  <label for="userName">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="userName"
+                    th:value="${user.userName}"
+                    placeholder="Enter your name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="userEmail">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="userEmail"
+                    th:value="${user.userEmail}"
+                    placeholder="Enter email "
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="userPassword">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="userPassword"
+                    placeholder="Enter password "
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <textarea
+                    name="userAbout"
+                    class="form-control"
+                    th:text="${user.userAbout}"
+                    placeholder="Enter something about yourself"
+                  ></textarea>
+                </div>
+                <div class="form-group form-check text-center">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    name="agreement"
+                  />
+                  <label class="form-check-label" for="exampleCheck1"
+                    >Accept Terms and Condition</label
+                  >
+                </div>
+                <div class="container text-center">
+                  <button
+                    type="submit"
+                    class="btn bg-primary text-white font-weight-bold"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    type="reset"
+                    class="btn bg-primary text-white font-weight-bold"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -11,15 +11,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
+
+    @Size(min = 3,max = 12,message = "UserName must be between 3 - 20 character")
     private String userName;
 
     @Column(unique = true)
+    @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message = "Invalid email")
     private String userEmail;
     private String userRole;
     private boolean userEnabled;
@@ -100,6 +105,12 @@ public class User {
     }
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail + ", userRole="
+                + userRole + ", userEnabled=" + userEnabled + ", userPassword=" + userPassword + ", userAbout="
+                + userAbout + ", userImage=" + userImage + ", contacts=" + contacts + "]";
     }
 
     

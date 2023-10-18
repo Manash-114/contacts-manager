@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" th:replace="base::baseLayout(~{::section})">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:th:text="${title}"></title>
-</head>
-<body>
-    <section>
-        <h1>Home page</h1>
+  </head>
+  <body>
+    <section class="banner d-flex justify-content-center align-items-center">
+      <div class="text-center">
+        <h1 class="font-weight-bold">Smart Contact Manger</h1>
+        <p>
+          Start Collecting your Contacts in very smarter way. We provide very
+          efficient and smarter way of handling Contacts.
+        </p>
+        <button class="btn bg-primary btn-lg text-white">Get Start</button>
+      </div>
     </section>
-</body>
+  </body>
 </html>
