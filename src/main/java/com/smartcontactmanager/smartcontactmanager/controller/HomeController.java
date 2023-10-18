@@ -51,8 +51,6 @@ public class HomeController {
         
         
         if(result.hasErrors()){
-                System.out.println(result);
-                System.out.println("error in message");
                  return "signup";
         }
         
@@ -60,9 +58,14 @@ public class HomeController {
             user.setUserEnabled(true);
             user.setUserRole("USER");
             user.setUserImage("default.png");
+            
+            if(userService.findUserEmail(user.getUserEmail()) != null){
+                session.setAttribute("message", new Message("Email already Exists.Try with different email id", "alert-danger"));
+                return "signup";
+            }
             userService.saveUser(user);
             m.addAttribute("user", new User());
-            session.setAttribute("message", new Message("Successfully Registered", "alert-success"));
+            session.setAttribute("message", new Message("Registration Successfully. Login to continue", "alert-success"));
             return "signup";
                     
         }catch(Exception e){
