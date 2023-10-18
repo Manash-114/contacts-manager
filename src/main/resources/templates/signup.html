@@ -35,11 +35,17 @@
                   <input
                     type="text"
                     class="form-control"
+                    th:classappend="${#fields.hasErrors('userName') ? 'is-invalid' : ''}"
                     name="userName"
                     th:value="${user.userName}"
+                    id="userName"
                     placeholder="Enter your name"
-                    required
                   />
+                  <div
+                    th:each=" e : ${#fields.errors('userName')}"
+                    class="invalid-feedback text-center"
+                    th:text="${e}"
+                  ></div>
                 </div>
 
                 <div class="form-group">
@@ -47,36 +53,55 @@
                   <input
                     type="email"
                     class="form-control"
+                    th:classappend="${#fields.hasErrors('userEmail') ? 'is-invalid' : ''}"
                     name="userEmail"
+                    id="userEmail"
                     th:value="${user.userEmail}"
-                    placeholder="Enter email "
-                    required
+                    placeholder="Enter email"
                   />
+                  <div
+                    th:each=" e : ${#fields.errors('userEmail')}"
+                    class="invalid-feedback text-center"
+                    th:text="${e}"
+                  ></div>
                 </div>
                 <div class="form-group">
                   <label for="userPassword">Password</label>
                   <input
                     type="password"
                     class="form-control"
+                    th:classappend="${#fields.hasErrors('userPassword') ? 'is-invalid' : ''}"
                     name="userPassword"
+                    id="userPassword"
                     placeholder="Enter password "
-                    required
                   />
+                  <div
+                    th:each=" e : ${#fields.errors('userPassword')}"
+                    class="text-center invalid-feedback"
+                    th:text="${e}"
+                  ></div>
                 </div>
 
                 <div class="form-group">
                   <textarea
                     name="userAbout"
                     class="form-control"
+                    th:classappend="${#fields.hasErrors('userAbout') ? 'is-invalid':''}"
                     th:text="${user.userAbout}"
                     placeholder="Enter something about yourself"
                   ></textarea>
+                  <div
+                    th:each=" e : ${#fields.errors('userAbout')}"
+                    class="invalid-feedback text-center"
+                    th:text="${e}"
+                  ></div>
                 </div>
                 <div class="form-group form-check text-center">
                   <input
                     type="checkbox"
                     class="form-check-input"
-                    name="agreement"
+                    th:classappend="${#fields.hasErrors('termAndCondition') ? 'is-invalid' : ''}"
+                    name="termAndCondition"
                   />
                   <label class="form-check-label" for="exampleCheck1"
                     >Accept Terms and Condition</label

@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
@@ -20,16 +22,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
 
-    @Size(min = 3,max = 12,message = "UserName must be between 3 - 20 character")
+    @Size(min = 5,max = 30,message = "UserName must be between 5 - 30 character")
     private String userName;
 
     @Column(unique = true)
-    @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message = "Invalid email")
+    @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message = "Enter valid email")
     private String userEmail;
     private String userRole;
     private boolean userEnabled;
+
+    @Size(min = 5,max = 10,message = "Password must be 5 to 10 character")
     private String userPassword;
     @Column(length = 500)
+
+    @Size(min = 10,max = 100,message = "Minimum 10 character")
     private String userAbout;
     private String userImage;
 
@@ -37,6 +43,9 @@ public class User {
     private List<Contact> contacts = new ArrayList<>();
     
     
+    @AssertTrue(message = "Agree Term and condition")
+    @Transient
+    private boolean termAndCondition;
     
 
     public User() {
@@ -105,6 +114,13 @@ public class User {
     }
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+    
+    public boolean isTermAndCondition() {
+        return termAndCondition;
+    }
+    public void setTermAndCondition(boolean termAndCondition) {
+        this.termAndCondition = termAndCondition;
     }
     @Override
     public String toString() {

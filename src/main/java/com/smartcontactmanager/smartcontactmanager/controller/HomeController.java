@@ -1,5 +1,7 @@
 package com.smartcontactmanager.smartcontactmanager.controller;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,31 +44,31 @@ public class HomeController {
     }
 
     @PostMapping("/do_register")
-    public String handleSignUpform(@Valid @ModelAttribute("user") User user ,
-                                    @RequestParam(value = "agreement",defaultValue = "false") 
-                                    boolean termAndCondition,
+    public String handleSignUpform(@Valid @ModelAttribute("user") User user , BindingResult result,
                                     Model m,
-                                    HttpSession session,
-                                    BindingResult result){
-        try{
-            if(!termAndCondition)
-                throw new Exception("You have not agreed the term and condition");
-            
-
-            System.out.println(result);
+                                    HttpSession session
+                                    ){
+        
+        
+        if(result.hasErrors()){
+                System.out.println(result);
+                System.out.println("error in message");
+                 return "signup";
+        }
+        
+        try{ 
             user.setUserEnabled(true);
             user.setUserRole("USER");
             user.setUserImage("default.png");
-            
             userService.saveUser(user);
             m.addAttribute("user", new User());
-            session.setAttribute("message", new Message("Successfully Registerd", "alert-success"));
+            session.setAttribute("message", new Message("Successfully Registered", "alert-success"));
             return "signup";
                     
         }catch(Exception e){
             e.printStackTrace();
             m.addAttribute("user", user);
-            session.setAttribute ("message", new Message("Something went wrong"+e.getMessage(), "alert-danger"));
+            session.setAttribute ("message", new Message("Something went wrong ! Server error ! Try Again", "alert-danger"));
             return "signup";
         }
        
