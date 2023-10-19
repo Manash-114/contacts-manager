@@ -59,7 +59,7 @@ public class HomeController {
         
         try{ 
             user.setUserEnabled(true);
-            user.setUserRole("USER");
+            user.setUserRole("ROLE_USER");
             user.setUserImage("default.png");
             user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
             if(userService.findUserEmail(user.getUserEmail()) != null){
