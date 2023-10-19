@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import com.smartcontactmanager.smartcontactmanager.services.UserService;
 public class HomeController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     @GetMapping("/")
     public String home(Model m){
         m.addAttribute("title", "Home-Smart Contact Manager");
@@ -58,7 +61,7 @@ public class HomeController {
             user.setUserEnabled(true);
             user.setUserRole("USER");
             user.setUserImage("default.png");
-            
+            user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
             if(userService.findUserEmail(user.getUserEmail()) != null){
                 session.setAttribute("message", new Message("Email already Exists.Try with different email id", "alert-danger"));
                 return "signup";

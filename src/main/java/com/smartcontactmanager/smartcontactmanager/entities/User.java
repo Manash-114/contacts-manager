@@ -31,7 +31,7 @@ public class User {
     private String userRole;
     private boolean userEnabled;
 
-    @Size(min = 5,max = 10,message = "Password must be 5 to 10 character")
+    @Size(min = 5,max = 255,message = "Password must be 5 to 10 character")
     private String userPassword;
     @Column(length = 500)
 
