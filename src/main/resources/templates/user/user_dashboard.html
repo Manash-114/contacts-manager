@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="user/base::baseLayout(~{::section})">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
   <body>
-    <h1>User dashborad</h1>
+    <section>
+      <div
+        th:if="${session.message}"
+        class="alert alert-dismissible fade show"
+        role="alert"
+        th:classappend="${session.message.type}"
+      >
+        <h2 th:text="${session.message.content}"></h2>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <h1>User dashborad</h1>
+      <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+    </section>
   </body>
 </html>

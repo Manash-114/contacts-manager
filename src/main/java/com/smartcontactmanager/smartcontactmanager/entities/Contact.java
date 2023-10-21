@@ -7,20 +7,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int contactId;
+    
+    @NotBlank(message = "please enter contact name")
     private String contactName;
+    @NotBlank(message = "please enter nick name")
     private String contactNickname;
+    @NotBlank(message = "please enter work details")
     private String contactWork;
+
     private String contactImage;
     @Column(length = 500)
+    @NotBlank(message = "please enter about your contact")
     private String contactDescription;
+    
+
+    @Size(min = 10,max = 10 , message = "Enter a valid mobile number")
     private String contactPhoneNumber;
+    @Size(min = 10 ,max = 10 , message = "Enter a valid mobile number")
     private String contactAlternatePhoneNumber;
+    @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$",message = "Enter a valid email address")
     private String contactEmail;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -106,6 +120,17 @@ public class Contact {
         this.user = user;
     }
 
+
+    @Override
+    public String toString() {
+        return "Contact [contactId=" + contactId + ", contactName=" + contactName + ", contactNickname="
+                + contactNickname + ", contactWork=" + contactWork + ", contactImage=" + contactImage
+                + ", contactDescription=" + contactDescription + ", contactPhoneNumber=" + contactPhoneNumber
+                + ", contactAlternatePhoneNumber=" + contactAlternatePhoneNumber + ", contactEmail=" + contactEmail
+                + ", user=" + user + "]";
+    }
+
+    
     
 
 
