@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="user/base::baseLayout(~{::section})">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <section>
+      <div class="card mt-5" style="border-radius: 20px">
+        <div class="card-body">
+          <h1 class="text-center">Your Contact List</h1>
+          <table
+            class="table mt-4"
+            th:if="${contact_list.getTotalElements()>0}"
+          >
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each=" e: ${contact_list}">
+                <th scope="row" th:text="${'SCM-'+e.contactId}"></th>
+                <td th:text="${e.contactName}"></td>
+                <td th:text="${e.contactPhoneNumber}"></td>
+                <td th:text="${e.contactEmail}"></td>
+                <td>
+                  <a href="#"
+                    ><i
+                      class="fa-solid fa-pen-to-square"
+                      style="font-size: 20px"
+                    >
+                    </i
+                  ></a>
+                  <a href="#"
+                    ><i
+                      class="fa-solid fa-trash"
+                      style="font-size: 20px; margin: 0px 5px"
+                    ></i
+                  ></a>
+                  <a href="#"
+                    ><i class="fa-solid fa-eye" style="font-size: 20px"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2
+            th:unless="${contact_list.getTotalElements()>0}"
+            class="text-center"
+          >
+            No Contact Found
+          </h2>
+          <!--pagination part-->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li th:if="${currentPage !=0}" class="page-item">
+                <a class="page-link" th:href="@{/user/view/}+${currentPage-1}"
+                  >Previous</a
+                >
+              </li>
+              <li
+                th:classappend="${currentPage == i-1 ? 'active': ''}"
+                class="page-item"
+                th:each=" i : ${#numbers.sequence(1,totalPages)}"
+              >
+                <a
+                  class="page-link"
+                  th:href="@{/user/view/}+${i-1}"
+                  th:text="${i}"
+                ></a>
+              </li>
+              <li th:if="${currentPage != totalPages-1}" class="page-item">
+                <a class="page-link" th:href="@{/user/view/}+${currentPage+1}"
+                  >Next</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
