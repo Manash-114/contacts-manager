@@ -1,25 +1,32 @@
 package com.smartcontactmanager.smartcontactmanager.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.smartcontactmanager.smartcontactmanager.dao.ContactRepository;
 import com.smartcontactmanager.smartcontactmanager.entities.Contact;
 import com.smartcontactmanager.smartcontactmanager.entities.User;
 import com.smartcontactmanager.smartcontactmanager.helper.FileSaveHelper;
 import com.smartcontactmanager.smartcontactmanager.helper.Message;
+import com.smartcontactmanager.smartcontactmanager.services.ContactService;
 import com.smartcontactmanager.smartcontactmanager.services.UserService;
 
 @Controller
@@ -28,6 +35,8 @@ public class UserController {
     
     @Autowired
     private UserService userService;
+    @Autowired
+    private ContactService contactService;
     @GetMapping("/index")
     public String dashboard(Model m , Principal principal){
 
@@ -88,5 +97,25 @@ public class UserController {
         return "redirect:/user/index";
         
         
+    }
+
+    @GetMapping("/view/{page}")
+    public String viewContact(Model m,Principal p, @PathVariable("page") int pageNo){
+        String email = p.getName();
+        User findUserEmail = userService.findUserEmail(email);
+        
+        //current page - > pageNo start with 0;
+        //per page ->7 
+        Pageable pageable = PageRequest.of(pageNo,7);
+        
+        Page<Contact> listOfContacts = contactService.findContactByUserIdPage(findUserEmail.getUserId(), pageable);
+        m.addAttribute("contact_list", listOfContacts);
+        m.addAttribute("title", "View");
+        m.addAttribute("currentPage", pageNo);
+        m.addAttribute("totalPages", listOfContacts.getTotalPages());
+        
+        if(pageNo >=listOfContacts.getTotalPages())
+            System.out.println("invalid page no = "+pageNo);
+        return "user/view_contact";
     }
 }
