@@ -1,6 +1,7 @@
 package com.smartcontactmanager.smartcontactmanager.controller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -80,9 +81,11 @@ public class UserController {
         try{
             contact.setUser(user);
             user.getContacts().add(contact);
-            contact.setContactImage(mFile.getOriginalFilename());
+            
+            String imageName = new Date().getTime()+mFile.getOriginalFilename();
+            contact.setContactImage(imageName);
             FileSaveHelper fileSaveHelper = new FileSaveHelper();
-            if(fileSaveHelper.saveFile(mFile)){
+            if(fileSaveHelper.saveFile(mFile,imageName)){
                 userService.saveUser(user);
                 Message m1 = new Message("Contact Saved Successfully", "alert-success");
                 session.setAttribute("message", m1);
@@ -109,10 +112,36 @@ public class UserController {
         Pageable pageable = PageRequest.of(pageNo,7);
         
         Page<Contact> listOfContacts = contactService.findContactByUserIdPage(findUserEmail.getUserId(), pageable);
+        
         m.addAttribute("contact_list", listOfContacts);
         m.addAttribute("title", "View");
         m.addAttribute("currentPage", pageNo);
         m.addAttribute("totalPages", listOfContacts.getTotalPages());
+         m.addAttribute("singleContact", new Contact());
+        if(pageNo >=listOfContacts.getTotalPages())
+            System.out.println("invalid page no = "+pageNo);
+        return "user/view_contact";
+    }
+
+    @GetMapping("/view/{page}/{contactId}")
+    public String viewSingleContact(Model m,Principal p, @PathVariable("page") int pageNo, @PathVariable("contactId") int contactId){
+        String email = p.getName();
+        User findUserEmail = userService.findUserEmail(email);
+        
+        System.out.println("hit eye");
+        //current page - > pageNo start with 0;
+        //per page ->7 
+        Pageable pageable = PageRequest.of(pageNo,7);
+        
+        Page<Contact> listOfContacts = contactService.findContactByUserIdPage(findUserEmail.getUserId(), pageable);
+        
+        Contact singleContact = contactService.getSingleContact(contactId);
+        
+        m.addAttribute("contact_list", listOfContacts);
+        m.addAttribute("title", "View");
+        m.addAttribute("currentPage", pageNo);
+        m.addAttribute("totalPages", listOfContacts.getTotalPages());
+        m.addAttribute("singleContact", singleContact);
         
         if(pageNo >=listOfContacts.getTotalPages())
             System.out.println("invalid page no = "+pageNo);

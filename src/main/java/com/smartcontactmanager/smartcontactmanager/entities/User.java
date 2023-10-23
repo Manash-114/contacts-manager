@@ -16,6 +16,8 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class User {
     @Id
@@ -40,6 +42,7 @@ public class User {
     private String userImage;
 
     @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Contact> contacts = new ArrayList<>();
     
     

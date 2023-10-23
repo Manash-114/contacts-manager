@@ -2,6 +2,7 @@ package com.smartcontactmanager.smartcontactmanager.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,5 +38,10 @@ public class ContactService {
         listOfContacts = contactRepository.findContactByUserIdPage(userId, pageable);
 
         return listOfContacts;
+    }
+
+    public Contact getSingleContact(int contactId){
+        Optional<Contact> findById = contactRepository.findById(contactId);
+        return findById.get();
     }
 }

@@ -10,11 +10,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileSaveHelper {
-    public boolean saveFile(MultipartFile mFile){
+    public boolean saveFile(MultipartFile mFile,String fileName){
         boolean re = false;
         try{
             String upload_dir = new ClassPathResource("/static/images/").getFile().getAbsolutePath();
-            Files.copy(mFile.getInputStream(),Paths.get(upload_dir + File.separator +new Date().getTime()+mFile.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(mFile.getInputStream(),Paths.get(upload_dir + File.separator + fileName),StandardCopyOption.REPLACE_EXISTING);
             re  = true;   
         }catch(Exception e){
             e.printStackTrace();
