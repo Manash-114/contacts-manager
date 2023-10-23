@@ -44,4 +44,17 @@ public class ContactService {
         Optional<Contact> findById = contactRepository.findById(contactId);
         return findById.get();
     }
+
+    public boolean deleteContact(int contactId){
+        boolean re = false;
+        try{
+            contactRepository.deleteById(contactId);
+            re = true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return re;
+        
+    }
 }

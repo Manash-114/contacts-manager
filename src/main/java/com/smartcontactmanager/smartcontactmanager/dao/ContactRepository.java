@@ -16,6 +16,7 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
 
     @Query("from Contact as c where c.user.userId = :userid")
     public List<Contact> findContactByUserId(@Param("userid") int userId);
+    
     public List<Contact> findByUser(User user);
 
     @Query("from Contact as c where c.user.userId = :userid")

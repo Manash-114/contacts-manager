@@ -9,24 +9,54 @@ const toggleSidebar = () => {
 };
 
 const getSingleContact = (id) => {
-  let url = "http://localhost:9090/smartcontactmanager/singlecontact/" + id;
   let loader = document.getElementById("loader");
+  loader.style.display = "block";
+  let url = "http://localhost:9090/smartcontactmanager/singlecontact/" + id;
 
   loader.style.visibility = "visible";
-  let p = fetch(url)
+  fetch(url)
     .then((res) => {
       console.log(res.status);
       return res.json();
     })
     .then((value) => {
-      let h1 = document.getElementById("contact-name");
-      let loader = document.getElementById("loader");
       let d = document.getElementById("image");
-      loader.style.visibility = "hidden";
+      loader.style.display = "none";
       d.src =
         "http://localhost:9090/smartcontactmanager/images/" +
         value.contactImage;
-
-      h1.innerHTML = `${value.contactName}`;
     });
+};
+
+const deleteContact = (id) => {
+  let url = "http://localhost:9090/smartcontactmanager/delete-contact/" + id;
+
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    console.log(result);
+    if (result.isConfirmed) {
+      fetch(url, { method: "DELETE" })
+        .then((res) => {
+          return res.text();
+        })
+        .then((value) => {
+          if (value === "Deleted Successfully") {
+            Swal.fire(
+              "Deleted!",
+              "Your contact has been deleted.",
+              "success"
+            ).then(() => {
+              window.location = "0";
+            });
+          }
+        });
+    }
+  });
 };
