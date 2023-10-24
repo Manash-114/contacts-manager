@@ -11,7 +11,7 @@ const toggleSidebar = () => {
 const getSingleContact = (id) => {
   let loader = document.getElementById("loader");
   loader.style.display = "block";
-  let url = "http://localhost:9090/smartcontactmanager/singlecontact/" + id;
+  let url = "http://10.68.1.19:9090/smartcontactmanager/singlecontact/" + id;
 
   loader.style.visibility = "visible";
   fetch(url)
@@ -23,13 +23,13 @@ const getSingleContact = (id) => {
       let d = document.getElementById("image");
       loader.style.display = "none";
       d.src =
-        "http://localhost:9090/smartcontactmanager/images/" +
+        "http://10.68.1.19:9090/smartcontactmanager/images/" +
         value.contactImage;
     });
 };
 
 const deleteContact = (id) => {
-  let url = "http://localhost:9090/smartcontactmanager/delete-contact/" + id;
+  let url = "http://10.68.1.19:9090/smartcontactmanager/delete-contact/" + id;
 
   Swal.fire({
     title: "Are you sure?",

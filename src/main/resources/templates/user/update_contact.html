@@ -13,12 +13,19 @@
             style="border-radius: 20px; padding: 20px; background: #e7e6e6"
           >
             <div class="body">
-              <h1 class="text-center">Enter contact Details</h1>
+              <h1 class="text-center">Update contact Details</h1>
+              <div class="container text-center">
+                <img
+                  th:src="@{/images/}+${contact.contactImage}"
+                  alt="profile"
+                  style="width: 150px; height: 150px"
+                />
+              </div>
               <form
                 th:object="${contact}"
                 enctype="multipart/form-data"
                 method="post"
-                th:action="@{/user/process-contact}"
+                th:action="@{/user/update-contact/}+${contact.contactId}"
               >
                 <div class="input-group mt-3">
                   <div class="input-group-prepend">
@@ -40,7 +47,6 @@
                     th:text="${e}"
                   ></p>
                 </div>
-
                 <div class="input-group mt-3">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
@@ -162,11 +168,12 @@
                     th:text="${e}"
                   ></p>
                 </div>
-
+                <label for="file">Choose New Image </label>
                 <div class="input-group mt-3">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="fa-solid fa-images"></i>
+
                       <input
                         type="file"
                         class="form-control-file ml-3"
@@ -178,10 +185,7 @@
                 </div>
                 <div class="container text-center mt-3">
                   <button type="submit" class="btn bg-primary text-white">
-                    Submit
-                  </button>
-                  <button type="reset" class="btn bg-primary text-white">
-                    Reset
+                    Update
                   </button>
                 </div>
               </form>

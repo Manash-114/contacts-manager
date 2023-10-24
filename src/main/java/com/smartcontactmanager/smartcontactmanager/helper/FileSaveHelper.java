@@ -23,4 +23,20 @@ public class FileSaveHelper {
 
         return re;
     }
+
+    public boolean deleteFile(String fileName){
+        boolean re = false;
+        try{
+
+            String upload_dir = new ClassPathResource("/static/images/").getFile().getAbsolutePath();
+            Files.delete(Paths.get(upload_dir+File.separator+fileName));
+            re = true;
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return re;
+    }
 }
+

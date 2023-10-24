@@ -27,7 +27,7 @@
                 <td th:text="${e.contactPhoneNumber}"></td>
                 <td th:text="${e.contactEmail}"></td>
                 <td>
-                  <a>
+                  <a th:href="@{/user/update/}+${e.contactId}">
                     <i
                       class="fa-solid fa-pen-to-square"
                       style="font-size: 20px"

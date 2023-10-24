@@ -57,4 +57,15 @@ public class ContactService {
         return re;
         
     }
+
+    public boolean updateContact(Contact c){
+        boolean re = false;
+        try{
+            contactRepository.save(c);
+            re = true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return re;
+    }
 }
