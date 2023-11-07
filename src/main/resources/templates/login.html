@@ -5,65 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 offset-md-3">
-            <div class="my-card mt-3">
-              <div
-                th:if="${session.message}"
-                class="alert"
-                th:classappend="${session.message.type}"
-                role="alert"
-              >
-                <p th:text="${session.message.content}"></p>
-                <th:block
-                  th:text="${#session.removeAttribute('message')}"
-                ></th:block>
-              </div>
-              <div class="container text-center">
-                <img th:src = @{/images/register.png} alt="" width="100px">
-              </div>
-              <h2 class="text-center">Login Here</h2>
-
-              <div th:if="${param.error}" class="alert alert-danger">
-                invalid username and password
-              </div>
-
-              <div th:if="${param.logout}" class="alert alert-success">
-                You have been logout
-              </div>
-
-              <form class="form-signin" method="post" th:action="@{/do_login}">
-                <p>
-                  <label for="username" class="sr-only">Email</label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    class="form-control"
-                    placeholder="Enter your email"
-                    required
-                    autofocus
-                  />
-                </p>
-                <p>
-                  <label for="password" class="sr-only">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="form-control"
-                    placeholder="Password"
-                    required
-                  />
-                </p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
-                  Sign in
-                </button>
-              </form>
-            </div>
+    <section class="banner">
+      <div class="container d-flex justify-content-center">
+        <div class="my-card mt-3">
+          <div
+            th:if="${session.message}"
+            class="alert"
+            th:classappend="${session.message.type}"
+            role="alert"
+          >
+            <p th:text="${session.message.content}"></p>
+            <th:block
+              th:text="${#session.removeAttribute('message')}"
+            ></th:block>
           </div>
+          <!-- <div class="container text-center">
+            <img th:src = @{/images/register.png} alt="" width="100px">
+          </div> -->
+          <!-- <h2 class="text-center">Login Here</h2> -->
+
+          <div th:if="${param.error}" class="alert alert-danger">
+            invalid username and password
+          </div>
+
+          <div th:if="${param.logout}" class="alert alert-success">
+            You have been logout
+          </div>
+
+          <form class="form-signin mt-5" method="post" th:action="@{/do_login}">
+            <p>
+              <label for="username" class="sr-only">Email</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+                autofocus
+              />
+            </p>
+            <p>
+              <label for="password" class="sr-only">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Password"
+                required
+              />
+            </p>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              Sign in
+            </button>
+          </form>
         </div>
       </div>
     </section>

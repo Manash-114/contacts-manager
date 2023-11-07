@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -41,6 +42,7 @@ public class Contact {
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public Contact() {

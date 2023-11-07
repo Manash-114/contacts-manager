@@ -7,9 +7,10 @@
 } */
 
 .my-card {
-  background: white;
+  /* background: white; */
   border-radius: 20px;
   padding: 10px;
+  width: 30%;
 }
 .banner {
   width: 100%;
@@ -18,4 +19,16 @@
     url(../images/banner.jpg);
   background-size: cover;
   color: white;
+}
+
+.search-container {
+  position: relative;
+}
+.search-result {
+  position: absolute;
+  background: white;
+  width: 100%;
+  padding: 10px;
+  display: none;
+  border: 1px solid gray;
 }

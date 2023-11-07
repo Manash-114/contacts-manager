@@ -9,6 +9,17 @@
       <div class="card mt-5" style="border-radius: 20px">
         <div class="card-body">
           <h1 class="text-center">Your Contact List</h1>
+
+          <div class="search-container mt-2">
+            <input
+              onkeyup="search()"
+              id="search-input"
+              type="text"
+              class="form-control"
+              placeholder="Search your contacts"
+            />
+            <div class="search-result"></div>
+          </div>
           <table
             class="table mt-4"
             th:if="${contact_list.getTotalElements()>0}"

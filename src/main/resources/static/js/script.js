@@ -60,3 +60,31 @@ const deleteContact = (id) => {
     }
   });
 };
+
+const search = () => {
+  console.log("searching");
+  let query = $("#search-input").val();
+  if (query == "") {
+    $(".search-result").hide();
+  } else {
+    //search
+    $(".search-result").show();
+
+    //sending request to server
+    let url = "http://localhost:9090/smartcontactmanager/search/" + query;
+    fetch(url)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        let txt = `<div class = list-group>`;
+        data.forEach((e) => {
+          txt += `<a href = '#' class = 'list-group-item list-group-action'> ${e.contactName}</a>`;
+        });
+        txt += `</diV>`;
+        $(".search-result").html(txt);
+        $(".search-result").show();
+      });
+  }
+};
