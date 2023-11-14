@@ -32,6 +32,10 @@
             You have been logout
           </div>
 
+          <div th:if="${param.change}" class="alert alert-success">
+            <th th:text="${param.change}"></th>
+          </div>
+
           <form class="form-signin mt-5" method="post" th:action="@{/do_login}">
             <p>
               <label for="username" class="sr-only">Email</label>
@@ -55,6 +59,11 @@
                 placeholder="Password"
                 required
               />
+            </p>
+
+            <p>
+              <label for="password" class="sr-only">Forgot Password</label>
+              <a href="" th:href="@{/forgot}">Forgot Password!</a>
             </p>
             <button class="btn btn-lg btn-primary btn-block" type="submit">
               Sign in

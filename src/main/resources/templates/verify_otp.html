@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="base::baseLayout(~{::section})">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <section class="banner">
+      <div class="container d-flex justify-content-center">
+        <div class="my-card mt-3">
+          <div
+            th:if="${session.message}"
+            class="alert"
+            th:classappend="${session.message.type}"
+            role="alert"
+          >
+            <p th:text="${session.message.content}"></p>
+            <th:block
+              th:text="${#session.removeAttribute('message')}"
+            ></th:block>
+          </div>
+
+          <div th:if="${param.error}" class="alert alert-danger">
+            invalid email
+          </div>
+
+          <form
+            class="form-signin mt-5"
+            method="post"
+            th:action="@{/verify-otp}"
+          >
+            <p>
+              <label for="username" class="sr-only">otp</label>
+              <input
+                type="text"
+                name="otp"
+                class="form-control"
+                placeholder="Enter your otp  here"
+                required
+                autofocus
+              />
+              <input type="email" th:value="${email}" name="email" hidden />
+            </p>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+              verify
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
