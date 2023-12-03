@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.smartcontactmanager.smartcontactmanager.dao.UserRepository;
@@ -12,6 +14,7 @@ import com.smartcontactmanager.smartcontactmanager.entities.Contact;
 import com.smartcontactmanager.smartcontactmanager.entities.User;
 
 @Controller
+@RequestMapping("/test")
 public class TestController {
 
     @Autowired
@@ -29,5 +32,11 @@ public class TestController {
         u.setContacts(List.of(c,c1));
         userRepository.save(u);
         return "done";
+    }
+
+    @GetMapping("/manash")
+    public void manash(@RequestParam("m") String urlvalue, @RequestParam String k){
+        System.out.println("second = "+k);
+        System.out.println("Url value = "+urlvalue);
     }
 }

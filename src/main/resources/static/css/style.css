@@ -1,7 +1,20 @@
 .bg-primary {
-  background: #673ab7 !important;
+  background: rgb(3, 41, 101) !important;
 }
 
+.text-color {
+  color: rgb(3, 3, 3) !important;
+}
+
+#forgot-loading {
+  visibility: hidden;
+}
+
+.navbar a {
+  color: rgb(255, 255, 255) !important;
+  font-size: large;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
 /* body {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
 } */
@@ -12,13 +25,17 @@
   padding: 10px;
   width: 30%;
 }
+.modal .hidden {
+  display: none;
+}
 .banner {
   width: 100%;
   height: 92vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url(../images/banner.jpg);
+  background: linear-gradient(rgba(195, 202, 239, 0.7), rgba(59, 149, 190, 0.7)),
+    url(../images/bg.webp);
+  /* background-image: url(../images/bg.webp); */
   background-size: cover;
-  color: white;
+  color: rgb(54, 54, 96) !important;
 }
 
 .search-container {

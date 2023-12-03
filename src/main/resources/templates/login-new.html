@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="base::baseLayout(~{::section})">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <section style="background-color: rgb(113, 102, 237); height: 95vh">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem">
+              <div class="card-body p-5 text-center">
+                <h3 class="mb-5">Sign in</h3>
+                <div
+                  th:if="${session.message}"
+                  class="alert"
+                  th:classappend="${session.message.type}"
+                  role="alert"
+                >
+                  <p th:text="${session.message.content}"></p>
+                  <th:block
+                    th:text="${#session.removeAttribute('message')}"
+                  ></th:block>
+                </div>
+
+                <div th:if="${param.error}" class="alert alert-danger">
+                  Invalid email and Password
+                </div>
+
+                <div th:if="${param.logout}" class="alert alert-success">
+                  Logout Successfully
+                </div>
+
+                <div th:if="${param.change}" class="alert alert-success">
+                  <th th:text="${param.change}"></th>
+                </div>
+                <form
+                  class="form-signin mt-5"
+                  method="post"
+                  th:action="@{/do_login}"
+                >
+                  <p>
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      class="form-control"
+                      placeholder="Email"
+                      required
+                      autofocus
+                    />
+                  </p>
+                  <p>
+                    <label for="password" class="sr-only">Password</label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control"
+                      placeholder="Password"
+                      required
+                    />
+                  </p>
+
+                  <p>
+                    <label for="password" class="sr-only"
+                      >Forgot Password</label
+                    >
+                    <a data-toggle="modal" data-target="#exampleModal" href=""
+                      >Forgot Password!</a
+                    >
+                  </p>
+                  <button
+                    class="btn btn-lg btn-primary btn-block"
+                    type="submit"
+                  >
+                    Sign in
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Modal -->
+      <div
+        class="modal fade show"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Enter your Registered email Address
+              </h5>
+              <button
+                id="modalCloseBtn"
+                type="button"
+                class="close"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container text-center">
+                <i id="forgot-loading" class="fa-solid fa-spinner fa-spin"></i>
+              </div>
+              <form id="forgot-form" class="form-signin" method="post">
+                <p>
+                  <label for="username" class="sr-only">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    required
+                    autofocus
+                  />
+                </p>
+                <div class="container text-center">
+                  <button id="submit" class="btn btn-primary" type="submit">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

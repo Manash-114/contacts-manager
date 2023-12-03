@@ -26,18 +26,13 @@ public class HomeController {
     private UserService userService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    
     @GetMapping("/")
     public String home(Model m){
         m.addAttribute("title", "Home-Smart Contact Manager");
         return "home";
     }
-
-    @GetMapping("/about")
-    public String about(Model m){
-        m.addAttribute("title", "About");
-        return "about";
-    }
-
+    
     @GetMapping("/signup")
     public String signUp(Model m){
         m.addAttribute("title", "SignUp");
@@ -82,7 +77,7 @@ public class HomeController {
 
    @GetMapping("/signin")
    public String login(){
-        return "login";
+        return "login-new";
    }
 
 }
