@@ -37,8 +37,7 @@ public class User {
     private String userPassword;
     @Column(length = 500)
 
-    @Size(min = 10,max = 100,message = "Minimum 10 character")
-    private String userAbout;
+    
     private String userImage;
 
     @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
@@ -50,17 +49,30 @@ public class User {
     @Transient
     private boolean termAndCondition;
     
+    private boolean isVerifyEmail;
 
+    @Size(min = 10,max = 10,message = "Enter a valid number")
+    private String phoneNumber;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
     public User() {
     }
+    public boolean isVerifyEmail() {
+        return isVerifyEmail;
+    }
+    public void setVerifyEmail(boolean isVerifyEmail) {
+        this.isVerifyEmail = isVerifyEmail;
+    }
     public User(String userName, String userEmail, String userRole, boolean userEnabled, String userPassword,
-            String userAbout, String userImage, List<Contact> contacts) {
+            String userImage, List<Contact> contacts, boolean isVerifyEmail) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userRole = userRole;
         this.userEnabled = userEnabled;
         this.userPassword = userPassword;
-        this.userAbout = userAbout;
+        this.isVerifyEmail = isVerifyEmail;
         this.userImage = userImage;
         this.contacts = contacts;
     }
@@ -100,12 +112,7 @@ public class User {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
-    public String getUserAbout() {
-        return userAbout;
-    }
-    public void setUserAbout(String userAbout) {
-        this.userAbout = userAbout;
-    }
+    
     public String getUserImage() {
         return userImage;
     }
@@ -128,8 +135,10 @@ public class User {
     @Override
     public String toString() {
         return "User [userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail + ", userRole="
-                + userRole + ", userEnabled=" + userEnabled + ", userPassword=" + userPassword + ", userAbout="
-                + userAbout + ", userImage=" + userImage + ", contacts=" + contacts + "]";
+                + userRole + ", userEnabled=" + userEnabled + ", userPassword=" + userPassword + ", userImage=" + userImage + ", contacts=" + contacts + "]";
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     

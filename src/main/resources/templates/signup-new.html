@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="base::baseLayout(~{::section})">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <section style="background-color: rgb(194, 189, 250); height: 95vh">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem">
+              <div class="card-body p-2 text-center">
+                <h2>Sign Up</h2>
+                <div
+                  th:if="${session.message}"
+                  class="alert"
+                  th:classappend="${session.message.type}"
+                  role="alert"
+                >
+                  <p th:text="${session.message.content}"></p>
+                  <th:block
+                    th:text="${#session.removeAttribute('message')}"
+                  ></th:block>
+                </div>
+
+                <form
+                  th:action="@{/signup-submit}"
+                  method="post"
+                  id="signup-form"
+                  th:object="${user}"
+                  class="mt-4"
+                >
+                  <div class="form-group">
+                    <label for="userName">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('userName') ? 'is-invalid' : ''}"
+                      name="userName"
+                      th:value="${user.userName}"
+                      id="userName"
+                    />
+                    <div
+                      th:each=" e : ${#fields.errors('userName')}"
+                      class="invalid-feedback text-center"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('userEmail') ? 'is-invalid' : ''}"
+                      name="userEmail"
+                      id="userEmail"
+                      th:value="${user.userEmail}"
+                    />
+
+                    <div
+                      th:each=" e : ${#fields.errors('userEmail')}"
+                      class="invalid-feedback text-center"
+                      th:text="${e}"
+                    ></div>
+
+                    <div class="form-group">
+                      <label for="userEmail">Phone Number</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        th:classappend="${#fields.hasErrors('phoneNumber') ? 'is-invalid' : ''}"
+                        name="phoneNumber"
+                        id="phoneNumber"
+                        th:value="${user.phoneNumber}"
+                      />
+  
+                      <div
+                        th:each=" e : ${#fields.errors('phoneNumber')}"
+                        class="invalid-feedback text-center"
+                        th:text="${e}"
+                      ></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="userPassword">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('userPassword') ? 'is-invalid' : ''}"
+                      name="userPassword"
+                      id="userPassword"
+                    />
+                    <div
+                      th:each=" e : ${#fields.errors('userPassword')}"
+                      class="text-center invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- <div class="form-group">
+                    <textarea
+                      name="userAbout"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('userAbout') ? 'is-invalid':''}"
+                      th:text="${user.userAbout}"
+                      placeholder="Enter something about yourself"
+                    ></textarea>
+                    <div
+                      th:each=" e : ${#fields.errors('userAbout')}"
+                      class="invalid-feedback text-center"
+                      th:text="${e}"
+                    ></div>
+                  </div> -->
+                  <div class="form-group form-check text-center">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      th:classappend="${#fields.hasErrors('termAndCondition') ? 'is-invalid' : ''}"
+                      name="termAndCondition"
+                    />
+                    <label class="form-check-label" for="exampleCheck1"
+                      >Accept Terms and Condition</label
+                    >
+                  </div>
+                  <div class="container text-center">
+                    <button
+                      type="submit"
+                      class="btn bg-primary text-white font-weight-bold"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      type="reset"
+                      class="btn bg-primary text-white font-weight-bold"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

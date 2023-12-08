@@ -7,6 +7,32 @@
   </head>
   <body>
     <section>
+      <h1
+        id="verify"
+        th:if="${user.isVerifyEmail} == false"
+        style="visibility: hidden"
+      >
+        0
+      </h1>
+      <h1
+        id="verify"
+        th:unless="${user.isVerifyEmail} == false"
+        style="visibility: hidden"
+      >
+        1
+      </h1>
+      <h1
+        id="email"
+        th:text="${user.userEmail}"
+        style="visibility: hidden"
+      ></h1>
+      <div
+        id="spinner"
+        class="d-flex justify-content-center align-items-center"
+        style="visibility: hidden"
+      >
+        <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+      </div>
       <div
         th:if="${session.message}"
         class="alert alert-dismissible fade show text-center"
@@ -25,22 +51,36 @@
       </div>
 
       <th:block th:text="${#session.removeAttribute('message')}"></th:block>
-      <div
-        class="container d-flex justify-content- center align-items-center"
-        style="height: 90vh"
-      >
+
+      <div class="d-flex justify-content-center align-items-center">
         <div class="card my-card" style="width: 30rem">
           <div class="container text-center">
-            <img class="card-img-top" src="..." alt="Card image cap" />
+            <h2>Your Profile</h2>
+          </div>
+          <div class="container text-center mt-2">
+            <img
+              th:src="@{/images/profile.png}"
+              class="rounded-circle"
+              alt="Cinque Terre"
+              width="200px"
+              height="200px"
+            />
           </div>
           <div class="card-body">
-            <ul>
-              <li th:text="${user.userName}"></li>
-              <li th:text="${user.userEmail}"></li>
-              
-            </ul>
+            <div class="container">
+              <div class="details">
+                <p>Name : <span th:text="${user.userName}"></span></p>
+                <p>Email : <span th:text="${user.userEmail}"></span></p>
+                <p>
+                  Phone Number : <span th:th:text="${user.phoneNumber}"></span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script th:src="@{/js/signUp.js}"></script>
     </section>
   </body>
 </html>

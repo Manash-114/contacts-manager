@@ -6,10 +6,13 @@ import java.util.Date;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -121,7 +124,7 @@ public class UserController {
         m.addAttribute("title", "View");
         m.addAttribute("currentPage", pageNo);
         m.addAttribute("totalPages", listOfContacts.getTotalPages());
-         m.addAttribute("singleContact", new Contact());
+        m.addAttribute("singleContact", new Contact());
         if(pageNo >=listOfContacts.getTotalPages())
             System.out.println("invalid page no = "+pageNo);
         return "user/view_contact";
@@ -184,5 +187,14 @@ public class UserController {
         Message m1 = new Message("Contact not updated Successfully", "alert-warning");
         session.setAttribute("message", m1);
         return "redirect:/user/index";
+    }
+
+    @PostMapping("/is-verify/{email}")
+    public ResponseEntity<?> updateIsVeriryEmail(@PathVariable String email){
+        User user = userService.findUserEmail(email);
+        user.setVerifyEmail(true);
+        user.setTermAndCondition(true);
+        userService.saveUser(user);
+        return new ResponseEntity<>("done",HttpStatus.OK);
     }
 }

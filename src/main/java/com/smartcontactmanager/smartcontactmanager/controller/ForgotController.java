@@ -69,8 +69,10 @@ public class ForgotController {
         }
 
          // generating otp 4 digit
-        Random random = new Random(1111);
-        int otp = random.nextInt(9998);
+
+        Random random = new Random();
+        int otp;
+        otp = random.nextInt(1000,9999);
         String subject = "OTP from SCM";
         boolean sendEmail = emailService.sendEmail(email, "OTP = "+otp, subject);
         if(sendEmail){
