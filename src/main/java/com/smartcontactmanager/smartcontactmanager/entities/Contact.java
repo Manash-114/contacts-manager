@@ -29,9 +29,6 @@ public class Contact {
 
     private String contactImage;
     @Column(length = 500)
-    @NotBlank(message = "please enter about your contact")
-    private String contactDescription;
-    
 
     @Size(min = 10,max = 10 , message = "Enter a valid mobile number")
     private String contactPhoneNumber;
@@ -42,6 +39,7 @@ public class Contact {
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "user_id")
+    
     @JsonIgnore
     private User user;
 
@@ -49,14 +47,12 @@ public class Contact {
     }
 
     
-    public Contact(String contactName, String contactNickname, String contactWork, String contactImage,
-            String contactDescription, String contactPhoneNumber, String contactAlternatePhoneNumber,
+    public Contact(String contactName, String contactNickname, String contactWork, String contactImage, String contactPhoneNumber, String contactAlternatePhoneNumber,
             String contactEmail, User user) {
         this.contactName = contactName;
         this.contactNickname = contactNickname;
         this.contactWork = contactWork;
         this.contactImage = contactImage;
-        this.contactDescription = contactDescription;
         this.contactPhoneNumber = contactPhoneNumber;
         this.contactAlternatePhoneNumber = contactAlternatePhoneNumber;
         this.contactEmail = contactEmail;
@@ -94,12 +90,7 @@ public class Contact {
     public void setContactImage(String contactImage) {
         this.contactImage = contactImage;
     }
-    public String getContactDescription() {
-        return contactDescription;
-    }
-    public void setContactDescription(String contactDescription) {
-        this.contactDescription = contactDescription;
-    }
+    
     public String getContactPhoneNumber() {
         return contactPhoneNumber;
     }

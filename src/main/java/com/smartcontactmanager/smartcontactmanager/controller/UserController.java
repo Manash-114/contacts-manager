@@ -1,7 +1,10 @@
 package com.smartcontactmanager.smartcontactmanager.controller;
 
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -28,18 +31,23 @@ import com.smartcontactmanager.smartcontactmanager.entities.Contact;
 import com.smartcontactmanager.smartcontactmanager.entities.User;
 import com.smartcontactmanager.smartcontactmanager.helper.FileSaveHelper;
 import com.smartcontactmanager.smartcontactmanager.helper.Message;
+import com.smartcontactmanager.smartcontactmanager.services.CloudinaryFile;
 import com.smartcontactmanager.smartcontactmanager.services.ContactService;
 import com.smartcontactmanager.smartcontactmanager.services.UserService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    
+    @Autowired
+    private CloudinaryFile cloudinaryFile;
     @Autowired
     private UserService userService;
     @Autowired
     private ContactService contactService;
 
+   
 
     //handler for userdashboard
     @GetMapping("/index")
@@ -197,4 +205,21 @@ public class UserController {
         userService.saveUser(user);
         return new ResponseEntity<>("done",HttpStatus.OK);
     }
+
+
+    @PostMapping("/updateProfile")
+    public String changeImage(@RequestParam("image") MultipartFile multipartFile , Principal p){
+
+        
+        String email = p.getName();
+        User user = userService.findUserEmail(email);
+        
+        Map upload = cloudinaryFile.upload(multipartFile);
+        System.out.println(upload.get("url"));
+        user.setUserImage((String)upload.get("url"));
+        user.setTermAndCondition(true);
+        userService.saveUser(user);
+        return "redirect:/user/index";
+    }
+    
 }

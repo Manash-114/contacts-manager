@@ -14,7 +14,7 @@ if (v == 0) {
 }
 
 const sendOtpToMail = () => {
-  let url = `http://10.68.0.118:9090/smartcontactmanager/signup-otp/${email}`;
+  let url = `http://localhost:9090/smartcontactmanager/signup-otp/${email}`;
   console.log("Email = ", email);
   fetch(url, {
     method: "POST",
@@ -62,7 +62,7 @@ const openOtp = async () => {
 
 const sendOtpToServerForVerify = (otp) => {
   let url =
-    "http://10.68.0.118:9090/smartcontactmanager/verify-signup-otp/" + otp;
+    "http://localhost:9090/smartcontactmanager/verify-signup-otp/" + otp;
   fetch(url, {
     method: "POST",
   })
@@ -89,7 +89,7 @@ const sendOtpToServerForVerify = (otp) => {
 };
 
 const updateEmailVerify = () => {
-  let url = `http://10.68.0.118:9090/smartcontactmanager/user/is-verify/${email}`;
+  let url = `http://localhost:9090/smartcontactmanager/user/is-verify/${email}`;
   fetch(url, {
     method: "POST",
   })

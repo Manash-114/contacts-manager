@@ -1,6 +1,7 @@
 package com.smartcontactmanager.smartcontactmanager.controller;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.smartcontactmanager.smartcontactmanager.entities.User;
 import com.smartcontactmanager.smartcontactmanager.helper.Message;
 import com.smartcontactmanager.smartcontactmanager.payloads.ApiResponse;
+import com.smartcontactmanager.smartcontactmanager.services.CloudinaryFile;
 import com.smartcontactmanager.smartcontactmanager.services.EmailService;
 import com.smartcontactmanager.smartcontactmanager.services.UserService;
 
@@ -33,6 +36,7 @@ public class HomeController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     
+
     @Autowired
     private EmailService emailService;
 
@@ -63,7 +67,7 @@ public class HomeController {
         try{ 
             user.setUserEnabled(true);
             user.setUserRole("ROLE_USER");
-            user.setUserImage("profile.png");
+            user.setUserImage("https://res.cloudinary.com/dkzsuybqf/image/upload/v1702294861/profile_mui2ij.png");
             user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
             if(userService.findUserEmail(user.getUserEmail()) != null){
                 session.setAttribute("message", new Message("Email already Exists.Try with different email id", "alert-danger"));
@@ -121,5 +125,7 @@ public class HomeController {
         }
             
     }
+
+    
 
 }

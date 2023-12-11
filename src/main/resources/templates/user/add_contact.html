@@ -143,23 +143,6 @@
                   ></p>
                 </div>
 
-                <div class="form-group mt-3">
-                  <textarea
-                    id="mytextarea"
-                    name="contactDescription"
-                    class="form-control"
-                    rows="3"
-                    th:text="${contact.contactDescription}"
-                    th:classappend="${#fields.hasErrors('contactDescription') ? 'is-invalid' : ''}"
-                    placeholder="Enter contact Description"
-                  ></textarea>
-                  <p
-                    class="invalid-feedback ml-5"
-                    th:each=" e : ${#fields.errors('contactDescription')}"
-                    th:text="${e}"
-                  ></p>
-                </div>
-
                 <div class="input-group mt-3">
                   <div class="input-group-prepend">
                     <div class="input-group-text">

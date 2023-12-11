@@ -1,8 +1,12 @@
 package com.smartcontactmanager.smartcontactmanager.config;
 
-import org.aspectj.weaver.bcel.BcelAccessForInlineMunger;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.cloudinary.Cloudinary;
 
 
 @Configuration
@@ -51,6 +57,33 @@ public class MyConfig extends WebSecurityConfigurerAdapter{
         .and().csrf().disable();
     }
     
+    @Bean
+	public JavaMailSender getJavaMailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(587);
+		
+		mailSender.setUsername("manashjyotihandique449@gmail.com");
+		mailSender.setPassword("gsbs dzav utli jqbi");
+		
+		Properties props = mailSender.getJavaMailProperties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.debug", "true");
+		
+		return mailSender;
+	}
+
+	@Bean
+	public Cloudinary getCloudinary(){
+        Map<String,Object> data = new HashMap<>();
+        data.put("cloud_name", "dkzsuybqf");
+        data.put("api_key", "593595544653913");
+        data.put("api_secret", "QDltiOMDgF2HioqN1xCJ3ZEse28");
+        data.put("secure", true);
+        return new Cloudinary(data);
+	}
 
     
 }
