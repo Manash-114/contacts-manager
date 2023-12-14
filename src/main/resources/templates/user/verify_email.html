@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verify</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body style="display: flex; justify-content: center">
+    <h1 id="email" th:text="${email}" style="display: none"></h1>
+    <div id="spinner" style="visibility: hidden" class="mt-5">
+      <i class="fa-solid fa-spinner fa-spin fa-2xl"></i>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      let email = document.getElementById("email").innerHTML;
+      let spinner = document.getElementById("spinner");
+      spinner.style.visibility = "visible";
+      window.addEventListener("load", (event) => {
+        console.log("page is fully loaded");
+        sendOtpToMail();
+      });
+      const sendOtpToMail = () => {
+        let url = `http://localhost:9090/smartcontactmanager/signup-otp/${email}`;
+        console.log("Email = ", email);
+        fetch(url, {
+          method: "POST",
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            spinner.style.visibility = "hidden";
+            if (res.message === "true") {
+              Swal.fire({
+                icon: "success",
+                text: "An Otp send to your email",
+                allowOutsideClick: false,
+              }).then(() => {
+                //load new form for otp
+                openOtp();
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                text: "Not A valid email",
+                allowOutsideClick: false,
+              }).then(() => {
+                spinner.style.visibility = "hidden";
+              });
+            }
+          });
+      };
+
+      const openOtp = async () => {
+        const { value: otp } = await Swal.fire({
+          input: "text",
+          inputLabel: "Enter otp ",
+          allowOutsideClick: false,
+          inputValidator: (value) => {
+            if (!value) {
+              return "Enter otp ";
+            }
+          },
+        });
+        console.log("OTp = ", otp);
+        sendOtpToServerForVerify(otp);
+      };
+
+      const sendOtpToServerForVerify = (otp) => {
+        let url =
+          "http://localhost:9090/smartcontactmanager/verify-signup-otp/" + otp;
+        fetch(url, {
+          method: "POST",
+        })
+          .then((res) => {
+            if (res.status == 200) return res.json();
+            else return { message: "Bad Request" };
+          })
+          .then((res) => {
+            if (res.message === "true") {
+              //otp match // show success message
+              //update data to db
+              updateEmailVerify();
+            } else if (res.message === "Bad Request") {
+              Swal.fire("Internal Server Error");
+            } else {
+              Swal.fire("Otp not match!Reenter otp").then(() => {
+                openOtp();
+              });
+            }
+          })
+          .catch((er) => {
+            console.log(er);
+          });
+      };
+
+      const updateEmailVerify = () => {
+        let url = `http://localhost:9090/smartcontactmanager/user/is-verify/${email}`;
+        fetch(url, {
+          method: "POST",
+        })
+          .then((res) => {
+            console.log("After update table", res);
+            console.log("status text = ", res.statusText);
+          })
+          .then(() => {
+            let u = document.baseURI;
+            window.location.href = u;
+          })
+          .catch((er) => {
+            console.log(er);
+          });
+      };
+    </script>
+  </body>
+</html>

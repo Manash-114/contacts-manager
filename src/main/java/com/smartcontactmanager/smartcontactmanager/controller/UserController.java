@@ -55,6 +55,10 @@ public class UserController {
 
         String userEmail = principal.getName(); // help to get userUnique value through spring security
         User user = userService.getUserByEmail(userEmail);
+        if(user.isVerifyEmail() == false){
+            m.addAttribute("email", user.getUserEmail());
+            return "user/verify_email";
+        }
         m.addAttribute("user", user);
         m.addAttribute("title", "Dashboard");
         return "user/user_dashboard";
@@ -204,6 +208,18 @@ public class UserController {
         user.setTermAndCondition(true);
         userService.saveUser(user);
         return new ResponseEntity<>("done",HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public String IsVeriryEmail(Principal p , Model m){
+       System.out.println("hit is verify url");
+        User user = userService.findUserEmail(p.getName());
+        if(user.isVerifyEmail() == false){
+            m.addAttribute("email", user.getUserEmail());
+            return "user/verify_email";
+        }else{
+            return "redirect:/user/index";
+        }
     }
 
 

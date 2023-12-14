@@ -32,6 +32,23 @@
                   class="mt-4"
                 >
                   <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      th:classappend="${#fields.hasErrors('userEmail') ? 'is-invalid' : ''}"
+                      name="userEmail"
+                      id="userEmail"
+                      th:value="${user.userEmail}"
+                    />
+
+                    <div
+                      th:each=" e : ${#fields.errors('userEmail')}"
+                      class="invalid-feedback text-center"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+                  <div class="form-group">
                     <label for="userName">Name</label>
                     <input
                       type="text"
@@ -49,38 +66,21 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="userEmail">Email</label>
+                    <label for="userEmail">Phone Number</label>
                     <input
-                      type="email"
+                      type="text"
                       class="form-control"
-                      th:classappend="${#fields.hasErrors('userEmail') ? 'is-invalid' : ''}"
-                      name="userEmail"
-                      id="userEmail"
-                      th:value="${user.userEmail}"
+                      th:classappend="${#fields.hasErrors('phoneNumber') ? 'is-invalid' : ''}"
+                      name="phoneNumber"
+                      id="phoneNumber"
+                      th:value="${user.phoneNumber}"
                     />
 
                     <div
-                      th:each=" e : ${#fields.errors('userEmail')}"
+                      th:each=" e : ${#fields.errors('phoneNumber')}"
                       class="invalid-feedback text-center"
                       th:text="${e}"
                     ></div>
-
-                    <div class="form-group">
-                      <label for="userEmail">Phone Number</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        th:classappend="${#fields.hasErrors('phoneNumber') ? 'is-invalid' : ''}"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        th:value="${user.phoneNumber}"
-                      />
-  
-                      <div
-                        th:each=" e : ${#fields.errors('phoneNumber')}"
-                        class="invalid-feedback text-center"
-                        th:text="${e}"
-                      ></div>
                   </div>
                   <div class="form-group">
                     <label for="userPassword">Password</label>
@@ -90,6 +90,7 @@
                       th:classappend="${#fields.hasErrors('userPassword') ? 'is-invalid' : ''}"
                       name="userPassword"
                       id="userPassword"
+                      th:value="${user.userPassword}"
                     />
                     <div
                       th:each=" e : ${#fields.errors('userPassword')}"
@@ -98,20 +99,6 @@
                     ></div>
                   </div>
 
-                  <!-- <div class="form-group">
-                    <textarea
-                      name="userAbout"
-                      class="form-control"
-                      th:classappend="${#fields.hasErrors('userAbout') ? 'is-invalid':''}"
-                      th:text="${user.userAbout}"
-                      placeholder="Enter something about yourself"
-                    ></textarea>
-                    <div
-                      th:each=" e : ${#fields.errors('userAbout')}"
-                      class="invalid-feedback text-center"
-                      th:text="${e}"
-                    ></div>
-                  </div> -->
                   <div class="form-group form-check text-center">
                     <input
                       type="checkbox"
@@ -123,7 +110,7 @@
                       >Accept Terms and Condition</label
                     >
                   </div>
-                  <div class="container text-center">
+                  <div id="last" class="container text-center">
                     <button
                       type="submit"
                       class="btn bg-primary text-white font-weight-bold"
