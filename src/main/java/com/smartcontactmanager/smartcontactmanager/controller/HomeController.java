@@ -1,12 +1,14 @@
 package com.smartcontactmanager.smartcontactmanager.controller;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +22,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 import com.smartcontactmanager.smartcontactmanager.entities.User;
 import com.smartcontactmanager.smartcontactmanager.helper.Message;
 import com.smartcontactmanager.smartcontactmanager.payloads.ApiResponse;
 import com.smartcontactmanager.smartcontactmanager.services.CloudinaryFile;
 import com.smartcontactmanager.smartcontactmanager.services.EmailService;
 import com.smartcontactmanager.smartcontactmanager.services.UserService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class HomeController {
@@ -126,6 +134,29 @@ public class HomeController {
             
     }
 
+
+    @PostMapping("/donate")
+    @ResponseBody
+    public String donate(@RequestBody Map<String,Object> data) throws RazorpayException{
+        System.out.println(data.get("amount"));
+
+        int amt = Integer.parseInt(data.get("amount").toString());
+
+        RazorpayClient razorpayClient = new RazorpayClient("rzp_test_ne8njhlSIl25ZY", "cwglVjpWNKlEHujh9mopKF9l");
+
+        JSONObject orderRequest = new JSONObject();
+        orderRequest.put("amount",amt*100);
+        orderRequest.put("currency","INR");
+        orderRequest.put("receipt", "receipt#1");
+        JSONObject notes = new JSONObject();
+        notes.put("notes_key_1","Tea, Earl Grey, Hot");
+        orderRequest.put("notes",notes);
+
+        Order order = razorpayClient.orders.create(orderRequest);
+        System.out.println(order);
+        return order.toString();
+    }
+    
     
 
 }

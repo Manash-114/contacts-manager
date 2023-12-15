@@ -16,7 +16,147 @@
         <a class="btn bg-primary btn-lg text-white" th:href="@{/user/index}">
           Get Start
         </a>
+        <div class="help">
+          <button
+            id="donateBtn"
+            class="btn bg-primary"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Donate Developer
+          </button>
+
+          <!-- <h1 th:if="${message}" id="invalid-amount" style="display: none">
+            1
+          </h1>
+          <h1 th:else="${message}" id="invalid-amount" style="display: none">
+            0
+          </h1> -->
+        </div>
       </div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Enter Amount</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="amount-form" th:action="@{/donate}" method="post">
+                <input type="text" name="amount" id="amount" />
+                <button type="submit" class="bg-primary">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+        console.log("Start my js");
+
+        const form = document.querySelector("#amount-form");
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          console.log("form submit");
+          const amount = document.querySelector("#amount").value;
+          if (isNaN(amount) || amount == undefined || amount == "") {
+            alert("Enter a valid amount");
+            return;
+          }
+
+          //send data to server
+          let url = "http://localhost:9090/smartcontactmanager/donate";
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({ amount: amount }),
+          })
+            .then((res) => {
+              console.log(res);
+              return res.json();
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.status === "created") {
+                var options = {
+                  key: "rzp_test_ne8njhlSIl25ZY", // Enter the Key ID generated from the Dashboard
+                  amount: res.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                  currency: "INR",
+                  name: "SmartContactManager",
+                  description: "Donation",
+                  image:
+                    "https://res.cloudinary.com/dkzsuybqf/image/upload/v1702294861/profile_mui2ij.png",
+                  order_id: res.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                  handler: function (response) {
+                    // alert(response.razorpay_payment_id);
+                    // alert(response.razorpay_order_id);
+                    // alert(response.razorpay_signature);
+                    console.log("payment success");
+                    Swal.fire("Payment Success").then(() => {
+                      location.reload();
+                    });
+                  },
+                  prefill: {
+                    name: "",
+                    email: "",
+                    contact: "",
+                  },
+                  notes: {
+                    address: "Razorpay Corporate Office",
+                  },
+                  theme: {
+                    color: "#3399cc",
+                  },
+                };
+
+                const rzp1 = new Razorpay(options);
+                rzp1.on("payment.failed", function (response) {
+                  alert(response.error.code);
+                  alert(response.error.description);
+                  alert(response.error.source);
+                  alert(response.error.step);
+                  alert(response.error.reason);
+                  alert(response.error.metadata.order_id);
+                  alert(response.error.metadata.payment_id);
+                  console.log("payment failed");
+                });
+
+                rzp1.open();
+              }
+            });
+        });
+
+        console.log("end my js");
+
+        // const invAmount = document.querySelector("#amount-amount");
+        // console.log(invAmount.innerHTML.trim());
+        // if (invAmount.innerHTML.trim() === "1") {
+        //   Swal.fire("Enter a valid Amount").then(() => {
+        //     const amountModal = document.querySelector("#exampleModal");
+        //     const modalInstance = new bootstrap.Modal(amountModal);
+        //     modalInstance.show();
+        //   });
+        // }
+      </script>
     </section>
   </body>
 </html>

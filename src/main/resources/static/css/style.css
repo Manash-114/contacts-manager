@@ -51,3 +51,28 @@
   font-weight: bold;
   text-align: center;
 }
+
+.help {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  /* flex-direction: column; */
+}
+
+.help button {
+  padding: 10px 20px;
+  color: white;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+#amount-form input[type="text"] {
+  width: 50%;
+}
+
+#amount-form button {
+  margin-left: 20px;
+  padding: 5px 15px;
+  color: white;
+  border-radius: 10px;
+}
